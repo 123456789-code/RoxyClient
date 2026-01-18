@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "roxy_client",
+	"version": "${version}",
+	"name": "Roxy Client",
+	"description": "This is Wang125510's client mod",
+	"authors": [
+		"Wang125510"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/123456789-code/RoxyClient"
+	},
+	"license": "MIT",
+	"icon": "assets/roxy_client/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.Wang125510.roxy_client.RoxyClient"
+		],
+		"client": [
+			"com.Wang125510.roxy_client.RoxyClientClient"
+		],
+		"fabric-datagen": [
+			"com.Wang125510.roxy_client.RoxyClientDataGenerator"
+		],
+		"modmenu": [
+			"com.Wang125510.roxy_client.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"roxy_client.mixins.json",
+		{
+			"config": "roxy_client.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
