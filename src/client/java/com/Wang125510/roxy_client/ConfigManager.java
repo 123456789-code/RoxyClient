@@ -20,21 +20,11 @@ public class ConfigManager {
 	}
 
 	// 配置类实例和数据类定义
-	private static ModConfig config;
+	private static Config config;
 	private static final Path CONFIG_PATH = FabricLoader.getInstance()
 			.getConfigDir()
 			.resolve(MOD_ID + ".json");
 
-	// 配置数据类 - 根据你的需要修改
-	public static class ModConfig {
-		public ModConfig() {}
-
-		private boolean betterBeacon = false;
-		public boolean getBetterBeacon() { return betterBeacon; }
-
-		private boolean keepMyScroll = false;
-		public boolean getKeepMyScroll() { return keepMyScroll; }
-	}
 
 	// 加载配置文件
 	private static void loadConfig() {
@@ -42,25 +32,25 @@ public class ConfigManager {
 			if (Files.exists(CONFIG_PATH)) {
 				// 读取现有配置文件
 				String content = new String(Files.readAllBytes(CONFIG_PATH));
-				config = GSON.fromJson(content, ModConfig.class);
+				config = GSON.fromJson(content, Config.class);
 				LOGGER.info("Positron Config Loaded: {}", CONFIG_PATH);
 			} else {
 				// 创建默认配置
-				config = new ModConfig();
+				config = new Config();
 				saveConfig();
 				LOGGER.info("Positron Config Created: {}", CONFIG_PATH);
 			}
 		} catch (JsonSyntaxException e) {
 			LOGGER.error("Malformed configuration file, reverting to default settings", e);
-			config = new ModConfig();
+			config = new Config();
 		} catch (IOException e) {
 			LOGGER.error("Failed to read configuration file", e);
-			config = new ModConfig();
+			config = new Config();
 		}
 	}
 
 	// 获取配置文件
-	public static ModConfig getConfig() {
+	public static Config getConfig() {
 		return config;
 	}
 
