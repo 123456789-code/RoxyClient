@@ -25,6 +25,11 @@
 *   **默认值**: `false`
 *   **移植自**: **[KeepMyModMenuScroll](https://github.com/hotpad100c/keepmyscroll)**
 
+### 高亮物品实体 (highlightItemEntity)
+*   **赋予物品实体发光效果**
+*   **默认值**: `false`
+*   **移植自**: **[Carpet Roxy Addition](https://github.com/123456789-code/CarpetRoxyAddition)**
+
 
 ## 🤝 贡献代码流程
 我们欢迎 Pull Requests (PR)！贡献流程通常如下：

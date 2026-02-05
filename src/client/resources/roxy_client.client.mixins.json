@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"betterBeacon.BeaconScreenMixin",
-		"keepMyScroll.ModScreenMixin"
+		"keepMyScroll.ModScreenMixin",
+		"highlightItemEntity.EntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

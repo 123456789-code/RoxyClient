@@ -33,12 +33,12 @@ public class ConfigManager {
 				// 读取现有配置文件
 				String content = new String(Files.readAllBytes(CONFIG_PATH));
 				config = GSON.fromJson(content, Config.class);
-				LOGGER.info("Positron Config Loaded: {}", CONFIG_PATH);
+				LOGGER.info("RoxyClient Config Loaded: {}", CONFIG_PATH);
 			} else {
 				// 创建默认配置
 				config = new Config();
 				saveConfig();
-				LOGGER.info("Positron Config Created: {}", CONFIG_PATH);
+				LOGGER.info("RoxyClient Config Created: {}", CONFIG_PATH);
 			}
 		} catch (JsonSyntaxException e) {
 			LOGGER.error("Malformed configuration file, reverting to default settings", e);
@@ -69,7 +69,7 @@ public class ConfigManager {
 		}
 	}
 
-	// 重新加载配置（可用于游戏内命令）
+	// 重新加载配置
 	public static void reloadConfig() {
 		loadConfig();
 	}
