@@ -1,5 +1,6 @@
 package com.Wang125510.roxy_client;
 
+import com.Wang125510.roxy_client.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
 

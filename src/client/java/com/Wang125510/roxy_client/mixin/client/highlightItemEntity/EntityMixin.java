@@ -1,6 +1,6 @@
 package com.Wang125510.roxy_client.mixin.client.highlightItemEntity;
 
-import com.Wang125510.roxy_client.ConfigManager;
+import com.Wang125510.roxy_client.config.Rules;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ public class EntityMixin {
 	private void alwaysGlowing(CallbackInfoReturnable<Boolean> cir) {
 		Entity self = (Entity)(Object)this;
 
-		if (ConfigManager.getConfig().getHighlightItemEntity() && (self instanceof ItemEntity)) {
+		if (Rules.highlightItemEntity && (self instanceof ItemEntity)) {
 			cir.setReturnValue(true);
 			cir.cancel();
 		}

@@ -1,5 +1,6 @@
-package com.Wang125510.roxy_client;
+package com.Wang125510.roxy_client.config;
 
+import com.Wang125510.roxy_client.RoxyClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -20,7 +21,7 @@ public class ConfigManager {
 	}
 
 	// 配置类实例和数据类定义
-	private static Config config;
+	private static Rules config;
 	private static final Path CONFIG_PATH = FabricLoader.getInstance()
 			.getConfigDir()
 			.resolve(MOD_ID + ".json");
@@ -32,30 +33,25 @@ public class ConfigManager {
 			if (Files.exists(CONFIG_PATH)) {
 				// 读取现有配置文件
 				String content = new String(Files.readAllBytes(CONFIG_PATH));
-				config = GSON.fromJson(content, Config.class);
+				config = GSON.fromJson(content, Rules.class);
 				LOGGER.info("RoxyClient Config Loaded: {}", CONFIG_PATH);
 			} else {
 				// 创建默认配置
-				config = new Config();
+				config = new Rules();
 				saveConfig();
 				LOGGER.info("RoxyClient Config Created: {}", CONFIG_PATH);
 			}
 		} catch (JsonSyntaxException e) {
 			LOGGER.error("Malformed configuration file, reverting to default settings", e);
-			config = new Config();
+			config = new Rules();
 		} catch (IOException e) {
 			LOGGER.error("Failed to read configuration file", e);
-			config = new Config();
+			config = new Rules();
 		}
 	}
 
-	// 获取配置文件
-	public static Config getConfig() {
-		return config;
-	}
-
 	// 保存配置文件
-	private static void saveConfig() {
+	public static void saveConfig() {
 		try {
 			// 确保配置目录存在
 			Files.createDirectories(CONFIG_PATH.getParent());

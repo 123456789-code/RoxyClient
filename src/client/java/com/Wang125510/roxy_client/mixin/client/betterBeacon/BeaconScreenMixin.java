@@ -1,6 +1,6 @@
 package com.Wang125510.roxy_client.mixin.client.betterBeacon;
 
-import com.Wang125510.roxy_client.ConfigManager;
+import com.Wang125510.roxy_client.config.Rules;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -32,7 +32,7 @@ public abstract class BeaconScreenMixin extends AbstractContainerScreen<BeaconMe
 
 	@Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V", shift = At.Shift.AFTER), cancellable = true)
 	private void changeButtons(CallbackInfo ci) {
-		if (!ConfigManager.getConfig().getBetterBeacon()) return;
+		if (!Rules.betterBeacon) return;
 		List<Holder<MobEffect>> effects = BeaconBlockEntity.BEACON_EFFECTS.stream().flatMap(Collection::stream).toList();
 		if (Minecraft.getInstance().screen instanceof BeaconScreen beaconScreen) {
 			addBeaconButton(beaconScreen.new BeaconConfirmButton(this.leftPos + 164, this.topPos + 107));
@@ -55,7 +55,7 @@ public abstract class BeaconScreenMixin extends AbstractContainerScreen<BeaconMe
 
 	@Inject(method = "renderBg", at = @At("TAIL"))
 	private void onRenderBg(GuiGraphics context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
-		if (!ConfigManager.getConfig().getBetterBeacon()) return;
+		if (!Rules.betterBeacon) return;
 		//this will clear the background from useless pyramid graphics
 		context.fill(leftPos + 10, topPos + 7, leftPos + 220, topPos + 98, 0xFF212121);
 	}
