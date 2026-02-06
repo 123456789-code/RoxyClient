@@ -28,7 +28,7 @@ public abstract class ModScreenMixin extends Screen {
 
 	@Inject(method = "init", at = @At("TAIL"))
 	private void initTail(CallbackInfo ci) {
-		if (Rules.keepMyScroll){
+		if (Rules.mainSwitch && Rules.keepMyScroll){
 			this.modList.setScrollAmount(DataManager.modScroll.getScrollY());
 		}
 	}

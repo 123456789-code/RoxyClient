@@ -14,7 +14,7 @@ public class EntityMixin {
 	private void alwaysGlowing(CallbackInfoReturnable<Boolean> cir) {
 		Entity self = (Entity)(Object)this;
 
-		if (Rules.highlightItemEntity && (self instanceof ItemEntity)) {
+		if (Rules.mainSwitch && Rules.highlightItemEntity && (self instanceof ItemEntity)) {
 			cir.setReturnValue(true);
 			cir.cancel();
 		}

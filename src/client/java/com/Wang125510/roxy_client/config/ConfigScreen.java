@@ -11,16 +11,16 @@ import net.minecraft.network.chat.Component;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class ConfigScreen extends Screen {
 	private final Screen parent;
+	private final Map<Field, Checkbox> ruleCheckboxes = new LinkedHashMap<>();
 
 	// UI控件
-	private Checkbox betterBeaconCheckbox;
-	private Checkbox keepMyScrollCheckbox;
-	private Checkbox highlightItemEntityCheckbox;
-
 	private Button saveButton;
+	private List<AbstractWidget> dynamicWidgets = new ArrayList<>();
 
 	public ConfigScreen(Screen parent) {
 		super(Component.translatable("roxy_client.config.title"));
@@ -31,53 +31,82 @@ public class ConfigScreen extends Screen {
 	protected void init() {
 		super.init();
 
-		// 配置选项区域
-		int startY = 60;
-		int spacing = 30;
-		int checkboxWidth = 200;
-		int checkboxX = (this.width - checkboxWidth) / 2;
+		// 清除之前动态创建的控件
+		for (AbstractWidget widget : dynamicWidgets) {
+			this.removeWidget(widget);
+		}
+		dynamicWidgets.clear();
+		ruleCheckboxes.clear();
 
-		// Better Beacon 选项
-		betterBeaconCheckbox = Checkbox.builder(
-						Component.translatable("roxy_client.config.better_beacon"),
-						this.font
-				)
-				.pos(checkboxX, startY)
-				.selected(Rules.betterBeacon)
-				.onValueChange((checkbox, value) -> {
-					Rules.betterBeacon = value;
-				})
-				.build();
-		this.addRenderableWidget(betterBeaconCheckbox);
+		try {
+			List<Field> ruleFields = getRuleFields();
+			int startX = 23;
+			int spacingX = this.width / 4;
+			int startY = 10;
+			int spacingY = 30;
 
-		// Keep My Scroll 选项
-		keepMyScrollCheckbox = Checkbox.builder(
-						Component.translatable("roxy_client.config.keep_my_scroll"),
-						this.font
-				)
-				.pos(checkboxX, startY + spacing)
-				.selected(Rules.keepMyScroll)
-				.onValueChange((checkbox, value) -> {
-					Rules.keepMyScroll = value;
-				})
-				.build();
-		this.addRenderableWidget(keepMyScrollCheckbox);
+			for (int i = 0; i < ruleFields.size(); i++) {
+				Field field = ruleFields.get(i);
+				field.setAccessible(true);
 
-		// Highlight Item Entity 选项
-		highlightItemEntityCheckbox = Checkbox.builder(
-						Component.translatable("roxy_client.config.highlight_item_entity"),
-						this.font
-				)
-				.pos(checkboxX, startY + spacing * 2)
-				.selected(Rules.highlightItemEntity)
-				.onValueChange((checkbox, value) -> {
-					Rules.highlightItemEntity = value;
-				})
-				.build();
-		this.addRenderableWidget(highlightItemEntityCheckbox);
+				// 获取注解信息
+				Rule annotation = field.getAnnotation(Rule.class);
+				if (annotation == null) continue;
 
-		// 底部按钮区域
+				// 获取当前值
+				boolean currentValue = field.getBoolean(null);
+
+				// 创建复选框
+
+				Checkbox checkbox = Checkbox.builder(
+								Component.translatable("roxy_client.config." + annotation.name()),
+								this.font
+						)
+						.pos(startX + spacingX * (i % 4), startY + spacingY * (int) (double) (i / 4))
+						.selected(currentValue)
+						.onValueChange((checkboxWidget, value) -> {
+							try {
+								// 更新规则值
+								field.setBoolean(null, value);
+							} catch (IllegalAccessException e) {
+								RoxyClient.LOGGER.error("无法设置规则字段 {}: {}", field.getName(), e.getMessage());
+							}
+						})
+						.build();
+
+				// 添加到屏幕和集合中
+				this.addRenderableWidget(checkbox);
+				dynamicWidgets.add(checkbox);
+				ruleCheckboxes.put(field, checkbox);
+			}
+		} catch (Exception e) {
+			RoxyClient.LOGGER.error("创建配置界面时出错: {}", e.getMessage(), e);
+		}
+
 		setupBottomButtons();
+	}
+
+	/**
+	 * 获取所有带有@Rule注解的字段
+	 */
+	private List<Field> getRuleFields() {
+		List<Field> ruleFields = new ArrayList<>();
+		try {
+			Field[] fields = Rules.class.getDeclaredFields();
+			for (Field field : fields) {
+				if (field.isAnnotationPresent(Rule.class)) {
+					// 只处理boolean类型的规则
+					if (field.getType() == boolean.class || field.getType() == Boolean.class) {
+						ruleFields.add(field);
+					} else {
+						RoxyClient.LOGGER.warn("规则 {} 不是boolean类型，跳过", field.getName());
+					}
+				}
+			}
+		} catch (Exception e) {
+			RoxyClient.LOGGER.error("收集规则字段时出错: {}", e.getMessage(), e);
+		}
+		return ruleFields;
 	}
 
 	private void setupBottomButtons() {
@@ -114,6 +143,7 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void cancelAndClose() {
+		// 重新加载配置以恢复修改前的值
 		ConfigManager.reloadConfig();
 		this.minecraft.setScreen(parent);
 	}
@@ -132,6 +162,7 @@ public class ConfigScreen extends Screen {
 
 	@Override
 	public void onClose() {
+		// 当用户直接关闭界面时，我们选择保存配置
 		saveAndClose();
 	}
 }

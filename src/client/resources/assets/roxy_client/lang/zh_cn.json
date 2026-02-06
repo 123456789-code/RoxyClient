@@ -1,7 +1,8 @@
 {
 	"roxy_client.config.title": "Roxy Client设置",
-	"roxy_client.config.better_beacon": "信标界面优化",
-	"roxy_client.config.keep_my_scroll": "保持滚轮位置",
-	"roxy_client.config.highlight_item_entity": "高亮物品实体",
-	"roxy_client.config.save": "保存"
+	"roxy_client.config.save": "保存",
+	"roxy_client.config.mainSwitch": "总开关",
+	"roxy_client.config.betterBeacon": "信标界面优化",
+	"roxy_client.config.keepMyScroll": "保持滚轮位置",
+	"roxy_client.config.highlightItemEntity": "高亮物品实体"
 }
