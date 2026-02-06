@@ -1,6 +1,6 @@
 package com.Wang125510.roxy_client.mixin.client.betterBeacon;
 
-import com.Wang125510.roxy_client.config.Rules;
+import com.Wang125510.roxy_client.Rules;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

@@ -1,6 +1,7 @@
 package com.Wang125510.roxy_client.config;
 
 import com.Wang125510.roxy_client.RoxyClient;
+import com.Wang125510.roxy_client.Rules;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,7 +14,6 @@ import java.util.List;
 
 public class ConfigScreen extends Screen {
 	private final Screen parent;
-	private final List<Checkbox> checkboxes = new ArrayList<>();
 
 	// UI控件
 	private Checkbox betterBeaconCheckbox;
@@ -30,18 +30,6 @@ public class ConfigScreen extends Screen {
 	@Override
 	protected void init() {
 		super.init();
-
-		List<Field> ruleFields = new ArrayList<>();
-		try {
-			Field[] fields = Rules.class.getDeclaredFields();
-			for (Field field : fields) {
-				if (field.isAnnotationPresent(Rule.class)) {
-					ruleFields.add(field);
-				}
-			}
-		} catch (Exception e) {
-			RoxyClient.LOGGER.error("Failed to collect rules: {}", e.getMessage());
-		}
 
 		// 配置选项区域
 		int startY = 60;

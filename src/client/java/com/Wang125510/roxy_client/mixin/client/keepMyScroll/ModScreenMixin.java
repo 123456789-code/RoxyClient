@@ -1,6 +1,6 @@
 package com.Wang125510.roxy_client.mixin.client.keepMyScroll;
 
-import com.Wang125510.roxy_client.config.Rules;
+import com.Wang125510.roxy_client.Rules;
 import com.Wang125510.roxy_client.data.DataManager;
 import com.terraformersmc.modmenu.gui.ModsScreen;
 import com.terraformersmc.modmenu.gui.widget.ModListWidget;

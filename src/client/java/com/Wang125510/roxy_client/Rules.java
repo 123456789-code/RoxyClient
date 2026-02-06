@@ -1,4 +1,6 @@
-package com.Wang125510.roxy_client.config;
+package com.Wang125510.roxy_client;
+
+import com.Wang125510.roxy_client.config.Rule;
 
 public class Rules {
 	@Rule(name = "betterBeacon")
