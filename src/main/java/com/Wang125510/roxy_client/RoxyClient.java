@@ -11,6 +11,6 @@ public class RoxyClient implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Roxy Client Initialized");
+
 	}
 }

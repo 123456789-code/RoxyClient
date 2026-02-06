@@ -14,4 +14,7 @@ public class Rules {
 
 	@Rule(name = "highlightItemEntity")
 	public static boolean highlightItemEntity = false;
+
+	@Rule(name = "highlightEntity")
+	public static boolean highlightEntity = false;
 }

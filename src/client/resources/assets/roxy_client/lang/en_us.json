@@ -1,4 +1,5 @@
 {
+	"roxy_client.keybinding.openconfig": "Open RoxyClient Config",
 	"roxy_client.config.title": "Roxy Client Settings",
 	"roxy_client.config.save": "Save",
 	"roxy_client.config.mainSwitch": "Main Switch",

@@ -1,4 +1,4 @@
-package com.Wang125510.roxy_client.mixin.client.highlightItemEntity;
+package com.Wang125510.roxy_client.mixin.client.highlightEntity;
 
 import com.Wang125510.roxy_client.Rules;
 import net.minecraft.world.entity.Entity;
@@ -12,10 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityMixin {
 	@Inject(method = "isCurrentlyGlowing", at = @At("HEAD"), cancellable = true)
 	private void alwaysGlowing(CallbackInfoReturnable<Boolean> cir) {
-		if (Rules.highlightEntity) return;
-		Entity self = (Entity)(Object)this;
-
-		if (Rules.mainSwitch && Rules.highlightItemEntity && (self instanceof ItemEntity)) {
+		if (Rules.mainSwitch && Rules.highlightEntity) {
 			cir.setReturnValue(true);
 			cir.cancel();
 		}

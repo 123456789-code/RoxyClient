@@ -5,7 +5,8 @@
 	"client": [
 		"betterBeacon.BeaconScreenMixin",
 		"keepMyScroll.ModScreenMixin",
-		"highlightItemEntity.EntityMixin"
+		"highlightItemEntity.EntityMixin",
+		"highlightEntity.EntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
